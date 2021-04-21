@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class PlayeMove : MonoBehaviour
+{
+    [SerializeField] private Rigidbody2D _rigidbody2D;
+    [SerializeField] private SpriteRenderer _flip;
+    [SerializeField] private SpriteRenderer _target;
+    [SerializeField] private Color _colorTarget;
+    [SerializeField] private float _speed;
+
+    private int _direction = 1;
+
+
+    private void FixedUpdate()
+    {
+        _rigidbody2D.velocity = (transform.right * _speed) * _direction;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<HiddenTreasure>(out HiddenTreasure hiddenTreasure))
+        {
+            _direction = -1;
+            _flip.flipX = false;
+            _target.color = _colorTarget;
+        }
+    }
+}
