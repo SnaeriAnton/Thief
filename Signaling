@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class Signaling : MonoBehaviour
+{
+    [SerializeField] private UnityEvent _music;
+    [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private Color _reachedColor;
+    [SerializeField] private AudioSource _volume;
+    [SerializeField] private Rigidbody2D _rigidbody2D;
+    [SerializeField] private Transform _target;
+
+    private bool _signal = false;
+
+    private void Update()
+    {
+        if (_signal)
+        {
+            _volume.volume += (Mathf.MoveTowards(_rigidbody2D.velocity.x, _target.position.x, 0)) / 10000;
+        }
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<PlayeMove>(out PlayeMove player))
+        {
+            _renderer.color = _reachedColor;
+            _music.Invoke();
+            _signal = true;
+            
+        }   
+    }
+}
