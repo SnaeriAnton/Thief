@@ -6,19 +6,29 @@ using UnityEngine.Events;
 public class Signaling : MonoBehaviour
 {
     [SerializeField] private UnityEvent _music;
-    [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private SpriteRenderer _rendererDoor;
     [SerializeField] private Color _reachedColor;
     [SerializeField] private AudioSource _volume;
-    [SerializeField] private Rigidbody2D _rigidbody2D;
-    [SerializeField] private Transform _target;
+    [SerializeField] private SpriteRenderer _spriteChest;
 
     private bool _signal = false;
+    private int _chestStolen = 1;
+    private int _minValum = 0;
+    private int _maxValum = 1;
+    private float increaseInVolume = 0.21f;
+
+
 
     private void Update()
     {
         if (_signal)
         {
-            _volume.volume += (Mathf.MoveTowards(_rigidbody2D.velocity.x, _target.position.x, 0)) / 10000;
+            if (_spriteChest.color.a == 0)
+            {
+                _chestStolen = -1;
+            }
+            _volume.volume += Mathf.MoveTowards(_minValum, _maxValum, increaseInVolume * Time.deltaTime) * _chestStolen;
+            Debug.Log(_volume.volume);
         }
         
     }
@@ -27,7 +37,7 @@ public class Signaling : MonoBehaviour
     {
         if (collision.TryGetComponent<PlayeMove>(out PlayeMove player))
         {
-            _renderer.color = _reachedColor;
+            _rendererDoor.color = _reachedColor;
             _music.Invoke();
             _signal = true;
             
