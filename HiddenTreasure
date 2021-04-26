@@ -4,5 +4,14 @@ using UnityEngine;
 
 public class HiddenTreasure : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer _target;
+    [SerializeField] private Color _colorTarget;
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<PlayerMove>(out PlayerMove playerMove))
+        {
+            _target.color = _colorTarget;
+        }
+    }
 }
