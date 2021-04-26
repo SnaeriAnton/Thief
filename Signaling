@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Signaling : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _music;
+    [SerializeField] private UnityEvent _playMusic;
     [SerializeField] private SpriteRenderer _rendererDoor;
     [SerializeField] private Color _reachedColor;
     [SerializeField] private AudioSource _volume;
@@ -16,8 +16,6 @@ public class Signaling : MonoBehaviour
     private int _minValum = 0;
     private int _maxValum = 1;
     private float increaseInVolume = 0.21f;
-
-
 
     private void Update()
     {
@@ -35,10 +33,10 @@ public class Signaling : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<PlayeMove>(out PlayeMove player))
+        if (collision.TryGetComponent<PlayerMove>(out PlayerMove player))
         {
             _rendererDoor.color = _reachedColor;
-            _music.Invoke();
+            _playMusic.Invoke();
             _signal = true;
             
         }   
