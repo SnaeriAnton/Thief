@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Signaling : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _playMusic;
+    [SerializeField] private UnityEvent _playedMusic;
     [SerializeField] private SpriteRenderer _rendererDoor;
     [SerializeField] private Color _reachedColor;
     [SerializeField] private AudioSource _volume;
@@ -36,7 +36,7 @@ public class Signaling : MonoBehaviour
         if (collision.TryGetComponent<PlayerMove>(out PlayerMove player))
         {
             _rendererDoor.color = _reachedColor;
-            _playMusic.Invoke();
+            _playedMusic.Invoke();
             _signal = true;
             
         }   
